@@ -1,0 +1,504 @@
+<script>
+      fetch("https://zakriaish.com/products")
+      .then((res) => {
+        return res.json();
+      })
+      .then((result) => {
+        // console.log(result);
+      
+        // Store the data in local storage
+        var userDataString = JSON.stringify(result);
+        localStorage.setItem("data", userDataString);
+      
+        // Retrieve and log the data from local storage
+        var retrievedDataString = localStorage.getItem("data");
+        if (retrievedDataString) {
+          var retrievedData = JSON.parse(retrievedDataString);
+          // console.log("Data retrieved from local storage:", retrievedData);
+          $("#category_container").empty();
+      
+          let prodContainer = $("#category_container");
+      
+          prodContainer.empty();
+          retrievedData.forEach((item) => {
+            let card_html = `
+      
+      <div class="col-md-3 col-xl-3 col-lg-3 col-6 ">
+      
+      <div class="product_cart">
+      
+      <div class="card_body">
+      
+      <div class="product_details">
+      
+      <div class="product_img">
+      
+      <img src="https://adminlaravell.foodbaskit.com//public/images/${item.images}" class="img-fluid" alt="Product-Zakraish">
+      
+      <div class="PRODUCT_social">
+      
+      <div class="menu">
+      
+      <li>
+      
+      <a href="#">
+      
+      <a href="/cart_details/${item.encryptedId}" class="icon cart_shop"  data-bs-toggle="tooltip" data-bs-placement="left" data-bs-custom-class="custom-tooltip" data-bs-title="Add To Cart">
+      
+      <i class="fa-solid fa-cart-shopping"></i>
+      
+      </a>
+      
+      <div class="icon" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-custom-class="custom-tooltip" data-bs-title="Quick View">
+      
+      <i class="fa-solid fa-eye"></i>
+      
+      </div>
+      
+      <div class="icon" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-custom-class="custom-tooltip" data-bs-title="Add To Wishlist">
+      
+      <i class="fa-regular fa-heart"></i>
+      
+      
+      </div>
+      
+      </a>
+      
+      </li>
+      
+      </div>
+      
+      </div>
+      
+      <div class="btn_cart">
+      
+      <button onclick="addtocart(this)" class="btn btn_cart add-to-cart-btn text-capitalize" data-id='${item.id}' data-img='${item.images}' data-encid='${item.encryptedId}' data-name='${item.name}' data-price='${item.price}'>add to cart</button>
+      
+      
+      </div>
+      
+      </div>
+      
+      </div>
+      
+      <div class="product_bootom___details">
+      
+      <div class="name">
+      
+      <span class="title">${item.product_type}</span>
+      
+      <div class="value">
+      
+      ${item.name}
+      
+      </div>
+      
+      </div>
+      
+      <div class="price">
+      
+      <div class="val">Pkr</div>
+      
+      <div class="key">    ${item.price}</div>
+      
+      </div>
+      
+      </div>
+      
+      </div>
+      
+      </div>
+      
+      </div>
+      
+      `;
+      
+            prodContainer.append(card_html);
+          });
+        }
+
+
+        else{
+            
+          // console.log("Data retrieved from local storage:", retrievedData);
+          $("#category_container").empty();
+      
+          let prodContainer = $("#category_container");
+      
+          prodContainer.empty();
+          result.forEach((item) => {
+            let card_html = `
+      
+      <div class="col-md-3 col-xl-3 col-lg-3 col-6 ">
+      
+      <div class="product_cart">
+      
+      <div class="card_body">
+      
+      <div class="product_details">
+      
+      <div class="product_img">
+      
+      <img src="https://adminlaravell.foodbaskit.com//public/images/${item.images}" class="img-fluid" alt="Product-Zakraish">
+      
+      <div class="PRODUCT_social">
+      
+      <div class="menu">
+      
+      <li>
+      
+      <a href="#">
+      
+      <a href="/cart_details/${item.encryptedId}" class="icon cart_shop"  data-bs-toggle="tooltip" data-bs-placement="left" data-bs-custom-class="custom-tooltip" data-bs-title="Add To Cart">
+      
+      <i class="fa-solid fa-cart-shopping"></i>
+      
+      </a>
+      
+      <div class="icon" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-custom-class="custom-tooltip" data-bs-title="Quick View">
+      
+      <i class="fa-solid fa-eye"></i>
+      
+      </div>
+      
+      <div class="icon" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-custom-class="custom-tooltip" data-bs-title="Add To Wishlist">
+      
+      <i class="fa-regular fa-heart"></i>
+      
+      
+      </div>
+      
+      </a>
+      
+      </li>
+      
+      </div>
+      
+      </div>
+      
+      <div class="btn_cart">
+      
+      <button onclick="addtocart(this)" class="btn btn_cart add-to-cart-btn text-capitalize" data-id='${item.id}' data-img='${item.images}' data-encid='${item.encryptedId}' data-name='${item.name}' data-price='${item.price}'>add to cart</button>
+      
+      
+      </div>
+      
+      </div>
+      
+      </div>
+      
+      <div class="product_bootom___details">
+      
+      <div class="name">
+      
+      <span class="title">${item.product_type}</span>
+      
+      <div class="value">
+      
+      ${item.name}
+      
+      </div>
+      
+      </div>
+      
+      <div class="price">
+      
+      <div class="val">Pkr</div>
+      
+      <div class="key">    ${item.price}</div>
+      
+      </div>
+      
+      </div>
+      
+      </div>
+      
+      </div>
+      
+      </div>
+      
+      `;
+      
+            prodContainer.append(card_html);
+          });
+        }
+      });
+      
+      let cart = [];
+      
+      let itemlenght = JSON.parse(localStorage.getItem("cart")) || [];
+      let lenghtcart = itemlenght.length;
+      $("body #counter").text(lenghtcart);
+      $("body #lenght").text(lenghtcart);
+      
+      displayCartItems();
+      
+      function addtocart (button) {
+        // alert('We are working, please wait for updates');
+      
+        let id = button.getAttribute("data-id");
+        let name = button.getAttribute("data-name");
+        let price = button.getAttribute("data-price");
+        let encid = button.getAttribute("data-encid");
+        let img = button.getAttribute("data-img");
+      
+        let cartItem = {
+          id,
+          name,
+          price,
+          encid,
+          img,
+          quantity: 1,
+        };
+      
+        $("#messages").html(`<div class="sweet_alerts_messages cart_alert">
+              <div class="mesg_box success box">
+                  <div class="mesg">
+                      Product Added ${cartItem.name} Successfully
+                  </div>
+                  <div class="close" id="close" onclick="toastclose()">
+                      <i class="fa-solid fa-xmark toast-close"></i>
+                  </div>
+                  <div class="progress"></div>
+              </div>
+          </div>`);
+      
+        let existingCart = JSON.parse(localStorage.getItem("cart")) || [];
+      
+        let existingItemIndex = existingCart.findIndex((item) => item.id == id);
+      
+        if (existingItemIndex !== -1) {
+          alert("Already Exist Item");
+          existingCart[existingItemIndex].quantity += 1;
+        } else {
+          existingCart.push(cartItem);
+        }
+      
+        localStorage.setItem("cart", JSON.stringify(existingCart));
+      
+        displayCartItems(existingCart);
+      
+        let totalItems = existingCart.length;
+        $("html body #counter").text(totalItems);
+        $("html body #lenght").text(totalItems);
+      
+        console.log(existingCart);
+      };
+      
+      
+      
+      
+      
+      
+      
+      function displayCartItems() {
+      let cartItems = $(".cart_items");
+      cartItems.empty();
+      
+      let productcart = JSON.parse(localStorage.getItem("cart"));
+      let totalPrice = 0;
+      if (productcart) {
+        productcart.forEach((item) => {
+          let cartItemHTML = `
+          <li>
+              <a href=''>
+                  <div class="cart_details" data-id='${item.id}'>
+                      <div class="cart_img">
+                          <img src="https://adminlaravell.foodbaskit.com//public/images/${item.img}" class="img-fluid" alt="">
+                      </div>
+                      <div class="cart_title">
+                          <a href="cart_details/${item.encid}" class="name">
+                              ${item.name}
+                          </a>
+                          <div class="price">
+                              Pkr <span class="amount">${item.price}</span>
+                          </div>
+                          <div class="quantity_inc">
+                          <div class="box">
+                              <div class="btn plus"  data-item="${item.id}">+</div>
+                              <input type="number" value="${item.quantity}" readonly>
+                              <div class="btn minus" data-item="${item.id}">-</div>
+                          </div>
+                      </div>
+                      </div>
+                      <div class="cart_remove" onclick="removecart(${item.id})" data-id='${item.id}'>
+                          <i class="fa-solid fa-trash"></i>
+                      </div>
+                   
+                  </div>
+              </a>
+          </li>
+      `;
+          totalPrice += parseFloat(item.price*item.quantity);
+      
+              $("#insert_product").val(JSON.stringify(productcart));
+          cartItems.append(cartItemHTML);
+          incrementQuantity(item.quantity);
+          decrementQuantity(item.quantity);
+        });
+      
+        totalprice(totalPrice.toFixed(2));
+        sub_total(totalPrice.toFixed(2));
+      
+      }
+      let countitems = productcart.length;
+      if (countitems > 0) {
+      showitems(countitems);
+      }
+      
+      
+      
+      function totalprice(price) {
+        $(".total_price").text(price);
+      
+      }
+      
+      function sub_total(price) {
+        let totalPriceWithCharge = (parseFloat(price) + 200).toFixed(2);
+        $(".sub_total").text(totalPriceWithCharge);
+        $('#total_price').val(totalPriceWithCharge);
+      }
+      
+      }
+      
+      // Increment quantity for a specific product
+     // Increment quantity for a specific product
+function incrementQuantity(itemId) {
+  try {
+    let existingCart = JSON.parse(localStorage.getItem("cart"));
+
+    // Find the item in the cart by ID
+    const itemToUpdate = existingCart.find((item) => item.id == itemId);
+
+    if (itemToUpdate) {
+      // Increment the quantity by 1
+      itemToUpdate.quantity += 1;
+
+      // Update the cart in local storage with the modified existingCart
+      localStorage.setItem("cart", JSON.stringify(existingCart));
+
+      // Call a function to display updated cart items
+      displayCartItems();
+
+      // Update the counter and length display based on the modified cart
+      let lengthCart = existingCart.length;
+      $(".bottom_box #counter").text(lengthCart);
+      $("#lenght").text(lengthCart);
+      $('#cart_check #counter').text(lengthCart);
+      showitems(lengthCart);
+
+      console.log("Updated cart:", existingCart);
+    }
+  } catch (error) {
+    console.error("Error parsing or accessing local storage:", error);
+  }
+}
+
+// Decrement quantity for a specific product
+function decrementQuantity(itemId) {
+  try {
+    let existingCart = JSON.parse(localStorage.getItem("cart"));
+
+    // Find the item in the cart by ID
+    const itemToUpdate = existingCart.find((item) => item.id == itemId);
+
+    if (itemToUpdate && itemToUpdate.quantity > 1) {
+      // Decrement the quantity by 1 if it's greater than 1
+      itemToUpdate.quantity -= 1;
+
+      // Update the cart in local storage with the modified existingCart
+      localStorage.setItem("cart", JSON.stringify(existingCart));
+
+      // Call a function to display updated cart items
+      displayCartItems();
+
+      // Update the counter and length display based on the modified cart
+      let lengthCart = existingCart.length;
+      $(".bottom_box #counter").text(lengthCart);
+      $("#lenght").text(lengthCart);
+      $('#cart_check #counter').text(lengthCart);
+      showitems(lengthCart);
+
+      console.log("Updated cart:", existingCart);
+    }
+  } catch (error) {
+    console.error("Error parsing or accessing local storage:", error);
+  }
+}
+
+// Increment quantity for a specific product
+$(document).on("click", ".btn.plus", function (event) {
+  event.stopPropagation(); // Prevent event propagation
+  let itemId = $(this).data("item");
+  incrementQuantity(itemId);
+});
+
+// Decrement quantity for a specific product using jQuery
+$(document).on("click", ".btn.minus", function (event) {
+  event.stopPropagation(); // Prevent event propagation
+  let itemId = $(this).data("item");
+  decrementQuantity(itemId);
+});
+
+      
+      function showitems(item){
+      $('#cart_check #counter').text(item);
+      $('.counter').text(item);
+      
+      }
+      
+      window.removecart = function (dataid) {
+        try {
+          let existingCart = JSON.parse(localStorage.getItem("cart"));
+      
+          // Find the index of the item to remove based on the matching dataid
+          const indexToRemove = existingCart.findIndex((item) => item.id == dataid);
+      
+          if (indexToRemove !== -1) {
+            // Remove the item from the existingCart array
+            existingCart.splice(indexToRemove, 1);
+      
+            // Update the cart in local storage with the modified existingCart
+            localStorage.setItem("cart", JSON.stringify(existingCart));
+      
+            // Call a function to display updated cart items
+            displayCartItems();
+        $("#insert_product").val(JSON.stringify(existingCart));
+            // Refresh the displayed products
+            // displayproduct(existingCart);
+      
+            // Display a success message or perform other actions as needed
+            $("#messages").html(`
+              <div class="sweet_alerts_messages cart_alert">
+                <div class="mesg_box error box">
+                  <div class="mesg">
+                    Product Deleted With ID ${dataid} Successfully
+                  </div>
+                  <div class="close" onclick="toastclose()">
+                    <i class="fa-solid fa-xmark toast-close"></i>
+                  </div>
+                  <div class="progress"></div>
+                </div>
+              </div>
+            `);
+      
+            // Update the counter and length display based on the modified cart
+            let lengthCart = existingCart.length;
+            $(".bottom_box #counter").text(lengthCart);
+            $("#lenght").text(lengthCart);
+            $('#cart_check #counter').text(lengthCart);
+            showitems(lengthCart);
+      
+            console.log("Updated cart:", existingCart);
+          } else {
+            console.log("Item with ID not found in cart:", dataid);
+          }
+        } catch (error) {
+          console.error("Error parsing or accessing local storage:", error);
+        }
+      };
+      
+      
+      
+      
+   </script> why its not showing data o ios like iphone
